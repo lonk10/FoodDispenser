@@ -30,6 +30,16 @@ def dispenseWeight(weight=20):
       }
       return render_template('index.html', **templateData)
 
+@app.route("/menu")
+def menu():
+      return render_template('menu.html')
+
+@app.route("/update")
+def update():
+    val = bk.getWeight()
+    templateData = {'data' : val}
+    return jsonify(templateData), 200
+
 if __name__ == "__main__":
       bk = Backend()
       try: 
