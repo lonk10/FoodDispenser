@@ -1,18 +1,42 @@
 <!DOCTYPE html>
    <head>
-      <title>RPi Web Server</title>
-      <!-- Latest compiled and minified CSS -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-      <!-- Optional theme -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-      <!-- Latest compiled and minified JavaScript -->
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      
+      <!-- JQuery -->
+      <script type=text/javascript src="{{
+         url_for('static', filename='jquery.js') }}"></script>
+      <title>Food Dispenser Web</title>
    </head>
    <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+         <a class="navbar-brand" href="/">Food Dispenser</a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+         
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+               <li class="nav-item active">
+               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+               </li>
+               <li class="nav-item">
+               <a class="nav-link" href="/menu">Dispenser menu</a>
+               </li>
+               <li class="nav-item">
+               <a class="nav-link disabled" href="#">Grafana</a>
+               </li>
+            </ul>
+         </div>
+      </nav>
 	  <h1>{{ title }}</h1>
       <h2>Current weight:  {{ scale }} grams
-         <a href="/" class="btn btn-block btn-lg btn-primary" role="button">Check weight</a>
-         <a href="/disp" class="btn btn-block btn-lg btn-primary" role="button">Dispense 20 grams</a>
+         <a href="/" class="btn btn-block btn-lg btn-secondary" role="button">Check weight</a>
+         <a href="/disp" class="btn btn-block btn-lg btn-secondary" role="button">Dispense 20 grams</a>
       </h1>
    </body>
 </html>
