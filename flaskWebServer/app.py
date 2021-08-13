@@ -2,7 +2,7 @@
 
 import RPi.GPIO as GPIO
 from hx711 import HX711
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import datetime
 import time
 import sys
