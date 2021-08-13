@@ -7,6 +7,11 @@
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       
+      <!-- Bootstrap JS-->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
       <!-- JQuery -->
       <script type=text/javascript src="{{
          url_for('static', filename='jquery.js') }}"></script>
@@ -14,29 +19,50 @@
    </head>
    <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-         <a class="navbar-brand" href="/">Food Dispenser</a>
-         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+         <a class="navbar-brand" href="/">Food dispenser</a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
          </button>
-         
-         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-               <li class="nav-item active">
-               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-               </li>
-               <li class="nav-item">
-               <a class="nav-link" href="/menu">Dispenser menu</a>
-               </li>
-               <li class="nav-item">
-               <a class="nav-link disabled" href="#">Grafana</a>
-               </li>
-            </ul>
+         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+           <div class="navbar-nav">
+             <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+             <a class="nav-item nav-link" href="/menu">Dispenser Menu</a>
+             <a class="nav-item nav-link disabled" href="#">Grafana</a>
+           </div>
          </div>
       </nav>
-	  <h1>{{ title }}</h1>
-      <h2>Current weight:  {{ scale }} grams
-         <a href="/" class="btn btn-block btn-lg btn-secondary" role="button">Check weight</a>
-         <a href="/disp" class="btn btn-block btn-lg btn-secondary" role="button">Dispense 20 grams</a>
+      <!-- <h2>Current weight:  {{ scale }} graams</h2> -->
+      <div class="card">
+         <h5 class="card-header">Current status (updates every 30 seconds)</h5>
+         <div class="card-body">
+           <h5 class="card-title">Dispenser status</h5>
+           <p class="card-text">Current weight is:</p> <div id='scaledata'></div><p class="card-text">grams.</p>
+           <h5 class="card-title">Bowl status</h5>
+           <p class="card-text">Current weight is: N/A grams.</p>
+         </div>
+       </div>
+      <h2><div class ="container" id='scaledata'></div></h2>
+      <!-- <a href="/" class="btn btn-block btn-lg btn-secondary" role="button">Check weight</a> -->
+      <a href="/disp" class="btn btn-block btn-lg btn-secondary" role="button">Dispense 20 grams</a>
       </h1>
+
+
+      <!-- Script for real time scale data -->
+      <script>
+         document.addEventListener("DOMContentLoaded", function(event) {
+       
+           const getSensorReading = function() {
+             fetch(`http://${location.host}/update`)  // send request to route /update
+               .then((resp) => resp.json())
+               .then(function(response) {
+                 document.getElementById('scaledata').innerHTML =response.data.toFixed(2);
+             });
+           }
+       
+           getSensorReading();
+           setInterval(getSensorReading, 30000);  //request for update every 30 seconds
+         });
+       </script>
+
    </body>
 </html>
