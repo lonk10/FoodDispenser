@@ -13,5 +13,12 @@ Make sure pigpio's deamon is active (use `sudo pigpiod` to start it)
 `sudo python app.py`
 
 Web service is on `localhost:80`
+
+## TODO
+
+Popup alerts
+Erogation scheduling
+Grafana integration
+
 ## Credits
 HX711 library - https://github.com/tatobari/hx711py
