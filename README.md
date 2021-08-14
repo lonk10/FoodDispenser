@@ -7,6 +7,8 @@ Made with Flask, Bootstrap, GPIO and pigpio
 ### Installation
 Simply clone the repository, use `Backend()` to set the pins for the HX711 module and servomotor (defaults are: `GPIO 5 -> HX711 DT` `GPIO 6 -> HX711 SCK` `GPIO 18 -> Servo`)
 
+HX711 calibration is done with the `referenceUnit` parameter, the value needs to be manually adjusted module by module. Refer to HX711py documentation for questions.
+
 Make sure pigpio's deamon is active (use `sudo pigpiod` to start it)
 
 ### Usage
@@ -17,7 +19,9 @@ Web service is on `localhost:80`
 ## TODO
 
 Popup alerts
+
 Erogation scheduling
+
 Grafana integration
 
 ## Credits
