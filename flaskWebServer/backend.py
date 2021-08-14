@@ -11,11 +11,11 @@ class Backend:
 
     ### Initializes backend object
     # dout = HX711 dt pin, pd_sck = HX711 sck pin, servo_pin = servo motor GPIO pin 
-    def __init__(self, dout=5, pd_sck=6, servo_pin=18):
+    def __init__(self, dout=5, pd_sck=6, servo_pin=18, referenceUnit=390):
         print("Setup started")
         #HX711 setup
         self.scaleInt = HX711(dout, pd_sck)
-        referenceUnit = 390 # reference unit for HX711, manually adjusted
+        #referenceUnit = 390 # reference unit for HX711, manually adjusted
         self.scaleInt.set_reading_format("MSB", "MSB")
         self.scaleInt.set_reference_unit(referenceUnit)
         self.scaleInt.reset()
