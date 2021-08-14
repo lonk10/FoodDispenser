@@ -31,37 +31,48 @@
            </div>
          </div>
       </nav>
-      <!-- <h2>Current weight:  {{ scale }} graams</h2> -->
+      <!-- Alerts -->
+      <div class="alert alert-warning alert-dismissible collapse" id="halfAlert">
+        <strong>Warning!</strong> Dispenser is less than half full.
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+      <div class="alert alert-danger alert-dismissible collapse" id="emptyAlert">
+        <strong>Warning!</strong> Dispenser is nearly empty.
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+      <!-- Status card -->
       <div class="card">
          <h5 class="card-header">Current status (updates every 30 seconds)</h5>
          <div class="card-body">
            <h5 class="card-title">Dispenser status</h5>
-           <p class="card-text">Current weight is:</p> <div id='scaledata'></div><p class="card-text">grams.</p>
+           <p class="card-text">Current weight is:</p> <div id='scaleData'></div><p class="card-text">grams.</p>
            <h5 class="card-title">Bowl status</h5>
            <p class="card-text">Current weight is: N/A grams.</p>
          </div>
-       </div>
-      <h2><div class ="container" id='scaledata'></div></h2>
-      <!-- <a href="/" class="btn btn-block btn-lg btn-secondary" role="button">Check weight</a> -->
+      </div>
       <a href="/disp" class="btn btn-block btn-lg btn-secondary" role="button">Dispense 20 grams</a>
       </h1>
 
 
       <!-- Script for real time scale data -->
       <script>
-         document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("DOMContentLoaded", function(event) {
        
-           const getSensorReading = function() {
-             fetch(`http://${location.host}/update`)  // send request to route /update
-               .then((resp) => resp.json())
-               .then(function(response) {
-                 document.getElementById('scaledata').innerHTML =response.data.toFixed(2);
-             });
-           }
+          const getSensorReading = function() {
+            fetch(`http://${location.host}/update`)  // send request to route /update
+              .then((resp) => resp.json())
+              .then(function(response) {
+                document.getElementById('scaleData').innerHTML = response.data.toFixed(2);
+            });
+          }
+
+          function makeAlert(){
+            
+          }
        
-           getSensorReading();
-           setInterval(getSensorReading, 30000);  //request for update every 30 seconds
-         });
+          getSensorReading();
+          setInterval(getSensorReading, 30000);  //request for update every 30 seconds
+        });
        </script>
 
    </body>
