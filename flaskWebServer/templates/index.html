@@ -32,7 +32,7 @@
          </div>
       </nav>
       <!-- Alerts -->
-      <div class="alert alert-warning alert-dismissible collapse" id="halfAlert">
+      <div class="alert alert-warning alert-dismissible" id="halfAlert">
         <strong>Warning!</strong> Dispenser is less than half full.
         <button type="button" class="close" data-dismiss="alert">&times;</button>
       </div>
@@ -50,7 +50,7 @@
            <p class="card-text">Current weight is: N/A grams.</p>
          </div>
       </div>
-      <a href="/disp" class="btn btn-block btn-lg btn-secondary" role="button">Dispense 20 grams</a>
+      <a href="/disp" class="btn btn-block btn-lg btn-secondary disabled" role="button">Dispense 20 grams</a>
       </h1>
 
 
@@ -66,10 +66,6 @@
             });
           }
 
-          function makeAlert(){
-            
-          }
-       
           getSensorReading();
           setInterval(getSensorReading, 30000);  //request for update every 30 seconds
         });
