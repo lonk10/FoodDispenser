@@ -34,7 +34,7 @@
                 <a class="nav-link" href="/menu">Dispenser menu</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link disabled" href="#">Grafana</a>
+                <a class="nav-link" href="http://192.168.0.13:3000">Grafana</a>
                 </li>
             </ul>
             </div>
@@ -46,6 +46,7 @@
             <div class="input-group">
                 <select class="custom-select" id="hour" name="hour">
                     <option selected>Hour</option>
+                    <option value="00">00</option>
                     <option value="01">01</option>
                     <option value="02">02</option>
                     <option value="03">03</option>
@@ -69,7 +70,6 @@
                     <option value="21">21</option>
                     <option value="22">22</option>
                     <option value="23">23</option>
-                    <option value="24">24</option>
                 </select>
                 <div class="input-group-prepend">
                     <span class="input-group-text">:</span>
@@ -126,7 +126,6 @@
     <script>
         function deleteRow(btn) {
             var row = btn.parentNode.parentNode;
-            //window.alert(row.textContent)
             jQuery.post("/menu/delete", row.textContent);
             row.parentNode.removeChild(row);
         }
