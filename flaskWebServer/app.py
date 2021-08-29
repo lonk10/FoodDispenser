@@ -38,21 +38,42 @@ def updateScheduler():
       hour = request.form.get('hour')
       mins = request.form.get('mins')
       weight = request.form.get('weight')
+      #prep variables
       orario = str(hour) + ":" + str(mins)
       wgt = int(weight)
+      #insert new items
       jdata.set_entry(orario, wgt)
-      glob.d = jdata 
+      #sort json
+      jdata.sortJson()
+      #update global variable
+      glob.d = jdata
       templateData = {
-            'sched' : tableData()
+            'sched' : jdata.dictZip()
       }
       return render_template('menu.html', **templateData)
+      
 
+@app.route("/menu/delete", methods=['POST'])
+#updates scheduler json with post request data
+def deleteSchedule():   
+      req = request.form.to_dict()
+      row = next(iter(req)).strip()
+      hour = row[:5]
+      weight = (row[5:].strip())[:2]
+      jdata.del_entry(hour, int(weight))
+      glob.d = jdata
+      templateData = {
+            'sched' : jdata.dictZip()
+      }
+      return render_template('menu.html', **templateData)      
+"""
 def tableData():
       orari = jdata.get_key("orari")
       wgt = jdata.get_key("grammi")
       zipped = zip(orari, wgt)
       ziplist = list(zipped)
       return sorted(ziplist, key=lambda tup: (tup[0]))
+"""
 
 #handles automatic erogation
 def scheduleLoop():
@@ -68,7 +89,7 @@ def scheduleLoop():
 @app.route("/menu")
 def menu():
       templateData = {
-            'sched' : tableData()
+            'sched' : jdata.dictZip()
       }
       return render_template('menu.html', **templateData)
 
