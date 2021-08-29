@@ -1,5 +1,8 @@
+#!/usr/bin/env python3
+
 import RPi.GPIO as GPIO
 from hx711 import HX711
+from influxdb import InfluxDBClient 
 import time
 import sys
 import pigpio
@@ -67,4 +70,11 @@ class Backend:
         self.turnOffServo()
         print("Erogation finished")
 
-
+    def updateDB(self):
+        client = InfluxDBClient(host='192.168.0.13', port=8086, username='grafana', password='grafanadispenser')
+        data = []
+        while True:
+            timestamp = int(time.time())
+            data.append({'measurement' : 'internalScale', "fields" : {'value' : self.getWeight()}, 'time' : timestamp})
+            client.write_points(data, database='dispenser', time_precision='s', protocol='json')
+            time.sleep(5)
