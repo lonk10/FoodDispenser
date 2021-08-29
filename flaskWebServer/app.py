@@ -13,6 +13,7 @@ from scheduler import Config
 app = Flask(__name__)
 
 @app.route("/")
+#renders main page
 def index():
 	# Read Sensors Status
       scaleSts = bk.getWeight()
@@ -23,6 +24,7 @@ def index():
       return render_template('index.html', **templateData)
 
 @app.route("/disp")
+#handles erogation
 def dispenseWeight(weight=20):
       bk.dispenseWeight(weight)
       scaleSts = bk.getWeight()
@@ -55,25 +57,21 @@ def updateScheduler():
 
 @app.route("/menu/delete", methods=['POST'])
 #updates scheduler json with post request data
-def deleteSchedule():   
+def deleteSchedule():
+      #get post request   
       req = request.form.to_dict()
+      #format dict entry
       row = next(iter(req)).strip()
       hour = row[:5]
       weight = (row[5:].strip())[:2]
+      #delete entry
       jdata.del_entry(hour, int(weight))
+      #set global dict
       glob.d = jdata
       templateData = {
             'sched' : jdata.dictZip()
       }
       return render_template('menu.html', **templateData)      
-"""
-def tableData():
-      orari = jdata.get_key("orari")
-      wgt = jdata.get_key("grammi")
-      zipped = zip(orari, wgt)
-      ziplist = list(zipped)
-      return sorted(ziplist, key=lambda tup: (tup[0]))
-"""
 
 #handles automatic erogation
 def scheduleLoop():
@@ -81,12 +79,15 @@ def scheduleLoop():
             now = datetime.datetime.now()
             mins = str(now.minute)
             h = str(now.hour) + ":" + mins
+            #checks if current hour is in the schedule data
             if h in glob.d.get_key("orari"):
                   index = glob.d.get_key("orari").index(h)
                   bk.dispenseWeight(glob.d.get_key("grammi")[index])
+            #waits 60s before checking again
             time.sleep(60)
 
 @app.route("/menu")
+#renders menu page
 def menu():
       templateData = {
             'sched' : jdata.dictZip()
@@ -94,6 +95,7 @@ def menu():
       return render_template('menu.html', **templateData)
 
 @app.route("/update")
+#handles automatic updating of scale data
 def update():
     val = bk.getWeight()
     templateData = {'data' : val}
