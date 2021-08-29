@@ -15,8 +15,7 @@
         <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 
         <!-- JQuery -->
-        <script type=text/javascript src="{{
-            url_for('static', filename='jquery.js') }}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <title>Food Dispenser Web</title>
     </head>
     </body>
@@ -40,9 +39,9 @@
             </ul>
             </div>
         </nav>
-        <h2>Choose when to erogate and how much
+        <h1 class="display-2">Erogation menu</h1>
 
-        </h2>
+        <h4>Add a new schedule</h4>
         <form action="/menu/req" method="POST">
             <div class="input-group">
                 <select class="custom-select" id="hour" name="hour">
@@ -99,21 +98,37 @@
                 </div>
             </div>
         </form>
-        <table class="table">
-            <thead>
+        <div class="mt-5">
+            <h4>Current schedule</h4>
+            <table class="table mt-1">
+                <thead>
+                    <tr>
+                        <th>Hours</th>
+                        <th>Quantity</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key in sched %}
                 <tr>
-                    <th>Hours</th>
-                    <th>Quantity</th>
+                        <td scope="row">{{ key.0 }}</td>
+                        <td scope="row">{{ key.1 }}</td>
+                        
+                        <td>
+                            <button type="button" class="btn btn-danger" type="submit" onclick = "deleteRow(this)">Delete</button>
+                        </td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for key in sched %}
-            <tr>
-                    <td scope="row">{{ key.0 }}</td>
-                    <td scope="row">{{ key.1 }}</td>
-            </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </body>
+    <script>
+        function deleteRow(btn) {
+            var row = btn.parentNode.parentNode;
+            //window.alert(row.textContent)
+            jQuery.post("/menu/delete", row.textContent);
+            row.parentNode.removeChild(row);
+        }
+    </script>
 </html>
