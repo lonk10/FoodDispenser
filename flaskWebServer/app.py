@@ -107,11 +107,14 @@ if __name__ == "__main__":
       glob = manager.Namespace()
       glob.d = jdata
       bk = Backend()
-      proc = multiprocessing.Process(target=scheduleLoop)
-      proc.start()
+      proc_sched = multiprocessing.Process(target=scheduleLoop)
+      proc_db = multiprocessing.Process(target=bk.updateDB)
+      proc_sched.start()
+      proc_db.start()
       try: 
             app.run(host='0.0.0.0', port=80, debug=True)
       finally:
-            proc.terminate()
+            proc_sched.terminate()
+            proc_db.terminate()
             bk.cleanAndExit()
             sys.exit()
