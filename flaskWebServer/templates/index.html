@@ -26,17 +26,17 @@
          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
            <div class="navbar-nav">
              <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-             <a class="nav-item nav-link" href="/menu">Dispenser Menu</a>
+             <a class="nav-item nav-link" href="/menu">Dispenser menu</a>
              <a class="nav-item nav-link" href="http://192.168.0.13:3000/">Grafana</a>
            </div>
          </div>
       </nav>
       <!-- Alerts -->
-      <div class="alert alert-warning alert-dismissible" id="halfAlert">
+      <div class="alert alert-warning alert-dismissible" id="halfAlert" style="display:none;">
         <strong>Warning!</strong> Dispenser is less than half full.
         <button type="button" class="close" data-dismiss="alert">&times;</button>
       </div>
-      <div class="alert alert-danger alert-dismissible collapse" id="emptyAlert">
+      <div class="alert alert-danger alert-dismissible" id="emptyAlert" style="display:none;">
         <strong>Warning!</strong> Dispenser is nearly empty.
         <button type="button" class="close" data-dismiss="alert">&times;</button>
       </div>
@@ -63,11 +63,16 @@
               .then((resp) => resp.json())
               .then(function(response) {
                 document.getElementById('scaleData').innerHTML = response.data.toFixed(2);
+                if (response.data.toFixed(2) <= 125){
+                  document.getElementById('emptyAlert').style.display = "block";
+                } else if (response.data.toFixed(2) <= 500){
+                  document.getElementById('halfAlert').style.display = "block";
+                }
             });
           }
 
           getSensorReading();
-          setInterval(getSensorReading, 30000);  //request for update every 30 seconds
+          setInterval(getSensorReading, 1000);  //request for update every 30 seconds
         });
        </script>
 
