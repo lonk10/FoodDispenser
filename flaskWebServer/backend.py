@@ -62,7 +62,7 @@ class Backend:
         startVal = self.getWeight()
         currentWeight = startVal #get starting weight
         print("Opening door")
-        self.setAngle(180) #opens door
+        self.setAngle(70) #opens door
         while currentWeight > startVal - weight: #check food erogation
             currentWeight = self.getWeight(5)
         print("Closing door")
@@ -70,8 +70,8 @@ class Backend:
         self.turnOffServo()
         print("Erogation finished")
 
-    def updateDB(self):
-        client = InfluxDBClient(host='192.168.0.13', port=8086, username='grafana', password='grafanadispenser')
+    def updateDB(self, host='192.168.0.13', port=8086):
+        client = InfluxDBClient(host, port, username='grafana', password='grafanadispenser')
         data = []
         while True:
             timestamp = int(time.time())
