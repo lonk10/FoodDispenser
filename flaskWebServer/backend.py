@@ -53,7 +53,7 @@ class Backend:
         self.servo.set_servo_pulsewidth(self.servo_pin, 0)
 
     ### Reads weight from the scale
-    def getWeight(self, times=5):
+    def getWeight(self, times=3):
         return self.scaleInt.get_weight(times)
 
     ### Erogates {weight} grams from the dispenser
